@@ -8,9 +8,10 @@ function ToDoList(props) {
       {props.data.map((item) => (
         <ListItem
           item={item}
-          key={item.id}
+          key={item.task}
           handleDelete={props.handleDelete}
           handleSelected={props.handleSelected}
+          handleUpdate={props.handleUpdate}
         />
       ))}
     </ListGroup>

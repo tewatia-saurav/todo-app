@@ -49,3 +49,7 @@
   margin-right: auto;
   margin-left: 2rem;
 }
+.task_label:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -5,18 +5,33 @@ import ToDoList from "./list-toDo";
 let uniqueNumber = 4;
 function Home() {
   const [newItem, setNewItem] = React.useState("");
+  const [functionality, setFunctionality] = React.useState("Add");
   const [listItems, setListItems] = React.useState(data);
   const [selectedId, setSelectedId] = React.useState([]);
+  const [currentUpdating, setCurrentUpdating] = React.useState({});
 
   const addTodo = () => {
-    let item = {
-      id: uniqueNumber++,
-      task: newItem,
-      completed: false,
-    };
+    if (functionality === "Add") {
+      let item = {
+        id: uniqueNumber++,
+        task: newItem,
+        completed: false,
+      };
 
-    setListItems([...listItems, item]);
-    setNewItem("");
+      setListItems([...listItems, item]);
+      setNewItem("");
+    } else if (functionality === "Update") {
+      let updated = listItems.map((item) => {
+        if (item.id === currentUpdating.id) {
+          return { ...currentUpdating, task: newItem };
+        } else return item;
+      });
+      console.log(updated);
+      setListItems(updated);
+      setFunctionality("Add");
+      setNewItem("");
+      setCurrentUpdating({});
+    }
   };
 
   const deleteTodo = (task) => {
@@ -35,6 +50,12 @@ function Home() {
     } else {
       setSelectedId([...selectedId, item.id]);
     }
+  };
+
+  const handleUpdate = (item) => {
+    setFunctionality("Update");
+    setNewItem(item.task);
+    setCurrentUpdating(item);
   };
 
   const handleDeleteAll = () => {
@@ -61,7 +82,7 @@ function Home() {
           }}
         />
         <Button type="submit" onClick={addTodo}>
-          Add
+          {functionality}
         </Button>
       </InputGroup>
 
@@ -69,6 +90,7 @@ function Home() {
         data={listItems}
         handleDelete={deleteTodo}
         handleSelected={handleSelected}
+        handleUpdate={handleUpdate}
       />
       {selectedId.length > 1 && (
         <Button

@@ -18,7 +18,9 @@ function ListItem(props) {
         onClick={() => handleCheck(item)}
         checked={item.complete}
       />
-      <span className={`${pClass}`}>{item.task}</span>
+      <span className={`${pClass}`} onClick={() => props.handleUpdate(item)}>
+        {item.task}
+      </span>
       <i
         className="bi bi-trash"
         style={{ color: "red" }}
